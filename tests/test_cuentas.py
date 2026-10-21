@@ -15,10 +15,10 @@ NUMERO_CUENTA_PRUEBA = "1" * 22
 
 #Pruebas de instanciacion--------------------------
 
-"""def test_cuenta_abstracta_no_se_puede_instanciar() -> None:
+def test_cuenta_abstracta_no_se_puede_instanciar() -> None:
     
     with pytest.raises(TypeError):
-        Cuenta(NUMERO_CUENTA_PRUEBA)"""
+        Cuenta(NUMERO_CUENTA_PRUEBA) #type: ignore
 
 def test_cuenta_ahorro_con_parametros_minimos() -> None:
     
@@ -66,10 +66,9 @@ def test_saldo_inicial_invalido_lanza_error(saldo) -> None:
     with pytest.raises(ValueError, match="Saldo"):
         CuentaAhorro(NUMERO_CUENTA_PRUEBA, saldo)
 
-"""def test_historial_inicial_invalido_lanza_error() -> None:
-
+def test_historial_inicial_invalido_lanza_error() -> None:
     with pytest.raises(ValueError, match="Historia"):
-        CuentaAhorro(NUMERO_CUENTA_PRUEBA, historial=["basura"])"""
+        CuentaAhorro(NUMERO_CUENTA_PRUEBA, historial="no_es_una_lista") #type: ignore
 
 #Pruebas de datos invalidos------------------------
 

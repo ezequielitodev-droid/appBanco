@@ -4,7 +4,9 @@ from decimal import Decimal
 
 import pytest
 
-from models.objects_models import Banco, Cliente
+from models.objects_models import Banco, Cliente, CuentaAhorro
+
+NUMERO_A = "1" * 22
 
 """
 CASOS A PROBAR - CLASE BANCO:
@@ -106,5 +108,40 @@ def test_dar_alta_cliente_con_dni_ya_registrado() -> None:
 
     assert len(banco.clientes) == 1
 
+def test_buscar_cliente_por_dni() -> None:
+    banco = Banco("Galicia")
+    
+    # Buscar en banco vacío (cubre cuando self.clientes está vacío)
+    assert banco.buscar_cliente_por_dni("12345678") is None
+    
+    cliente = banco.alta_cliente("Ana", "12345678")
+    
+    # Buscar cliente existente
+    assert banco.buscar_cliente_por_dni("12345678") == cliente
+    
+    # Buscar cliente inexistente (reorre la lista pero no lo encuentra)
+    assert banco.buscar_cliente_por_dni("87654321") is None
+
+
+def test_resumen_banco(capsys) -> None:
+    banco = Banco("Galicia")
+    banco.alta_cliente("Ana", "12345678")
+    
+    # Ejecuta el procedimiento resumen imprimiendo por terminal
+    banco.resumen()
+    
+    captured = capsys.readouterr()
+    assert "Galicia" in captured.out
+    assert "Ana" in captured.out
+
+def test_resumen_banco_con_cuentas(capsys) -> None:
+    banco = Banco("Galicia")
+    cliente = banco.alta_cliente("Ana", "12345678")
+    cliente.agregar_cuenta(CuentaAhorro(NUMERO_A))  # <-- Esto hace que entre al bucle de la línea 379
+    
+    banco.resumen()
+    
+    captured = capsys.readouterr()
+    assert "Cuenta A-" in captured.out
 
 #3. Metodo alta cliente----------------------------------

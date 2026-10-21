@@ -19,6 +19,10 @@ from utils.valitators import (
     es_dni_cliente_valido,
     es_nombre_banco_valido
 )
+
+from models.objects_models import CuentaAhorro
+
+NUMERO_PRUEBA = "1" * 22
  
 #Con parametrize, un mismo test se repite por cada valor de la lista
 #(pytest lo cuenta como un test por valor).
@@ -48,12 +52,15 @@ def test_numero_cuenta_invalido(valor) -> None:
  
 @pytest.mark.parametrize("saldo", [Decimal("0"), Decimal("0.00"), Decimal("100.50")])
 def test_saldo_valido(saldo) -> None:
-    assert es_saldo_cuenta_valido(saldo) is True
+    cuenta = CuentaAhorro(NUMERO_PRUEBA)
+    assert es_saldo_cuenta_valido(saldo, cuenta) is True
  
  
 @pytest.mark.parametrize("saldo", [Decimal("-0.01"), 100, 100.0, "100", None])
 def test_saldo_invalido(saldo) -> None:
-    assert es_saldo_cuenta_valido(saldo) is False
+    cuenta = CuentaAhorro(NUMERO_PRUEBA)
+    # Usamos type: ignore para el linter si le pasamos tipos incorrectos como int o str al test
+    assert es_saldo_cuenta_valido(saldo, cuenta) is False # type: ignore
  
  
 #Monto (borde: el 0 NO es valido, a diferencia del saldo)---------

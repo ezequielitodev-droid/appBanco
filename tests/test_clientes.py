@@ -64,12 +64,12 @@ def test_cliente_lista_de_cuentas_invalida_lanza_error(cuentas) -> None:
     "Elizabeth Costilla", 
     "  Apolos Costilla ",
 ])
-
 def test_set_cambia_nombre_y_limpia_espacios(nombre) -> None:
-
     cliente = Cliente("Elizabeth", "42246485")
-
-    assert cliente.set_nombre(nombre) == "Apolos Costilla" or "Elizabeth Costilla"
+    
+    cliente.set_nombre(nombre)
+    
+    assert cliente.get_nombre() == nombre.strip()
 
 @pytest.mark.parametrize("nombre", ["", "   ", None, 123])
 def test_set_nombre_invalido_lanza_error_y_conserva_el_anterior(nombre) -> None:
@@ -151,5 +151,42 @@ def test_total_incluye_saldos_negativos_de_cuenta_corriente() -> None:
     cuenta_corriente.extraer(Decimal("120.00"))   # su saldo queda en -70
  
     assert cliente.total() == Decimal("30.00")   # 100 + (-70)
+
+def test_listar_cuentas_con_tipo() -> None:
+    cliente = Cliente("Ana", "12345678")
+    ahorro = CuentaAhorro(NUMERO_A)
+    corriente = CuentaCorriente(NUMERO_B)
+    cliente.agregar_cuenta(ahorro)
+    cliente.agregar_cuenta(corriente)
+    
+    resultado = cliente.listar_cuentas_con_tipo()
+    assert resultado == [(ahorro, True), (corriente, False)]
+
+def test_depositar_en_cuenta_existente_y_no_existente() -> None:
+    cliente = Cliente("Ana", "12345678")
+    ahorro = CuentaAhorro(NUMERO_A, Decimal("100.00"))
+    cliente.agregar_cuenta(ahorro)
+    
+    # Caso exitoso
+    cliente.depositar_en_cuenta(NUMERO_A, Decimal("50.00"))
+    assert ahorro.get_saldo() == Decimal("150.00")
+    
+    # Caso no encontrada
+    with pytest.raises(ValueError, match="No se encontró una cuenta"):
+        cliente.depositar_en_cuenta("9" * 22, Decimal("10.00"))
+
+
+def test_extraer_de_cuenta_existente_y_no_existente() -> None:
+    cliente = Cliente("Ana", "12345678")
+    ahorro = CuentaAhorro(NUMERO_A, Decimal("100.00"))
+    cliente.agregar_cuenta(ahorro)
+    
+    # Caso exitoso
+    cliente.extraer_de_cuenta(NUMERO_A, Decimal("40.00"))
+    assert ahorro.get_saldo() == Decimal("60.00")
+    
+    # Caso no encontrada
+    with pytest.raises(ValueError, match="No se encontró una cuenta"):
+        cliente.extraer_de_cuenta("9" * 22, Decimal("10.00"))
 
 #Pruebas sobre los metodos-----------------------------
