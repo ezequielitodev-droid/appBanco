@@ -1,0 +1,293 @@
+{
+    "nombre": "NaranjaX",
+    "clientes": [
+        {
+            "nombre": "Elizabeth",
+            "dni": "42246485",
+            "cuentas": [
+                {
+                    "tipo": "ahorro",
+                    "numero": "6971255041372214628258",
+                    "saldo": "5000.00",
+                    "historial": [
+                        [
+                            "2026-10-20T02:24:11.817387",
+                            "deposito",
+                            "5000"
+                        ],
+                        [
+                            "2026-10-20T02:24:48.530872",
+                            "deposito",
+                            "500"
+                        ],
+                        [
+                            "2026-10-20T02:26:48.466287",
+                            "extraccion",
+                            "500"
+                        ]
+                    ]
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "0650385580735853532337",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "5700728208834148737785",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "4487869516363799801259",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "9849191835977308419141",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "7391710723473126481741",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "2188093975134417215063",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "6679215299290481506779",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "0945996968078647302256",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "2119044976314623109481",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "7033574826936563736658",
+                    "saldo": "0.00",
+                    "historial": []
+                }
+            ]
+        },
+        {
+            "nombre": "Bruno",
+            "dni": "44802136",
+            "cuentas": [
+                {
+                    "tipo": "ahorro",
+                    "numero": "0779844488969591514812",
+                    "saldo": "50000.00",
+                    "historial": [
+                        [
+                            "2026-10-15T02:32:10.656933",
+                            "deposito",
+                            "50000"
+                        ]
+                    ]
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "3563552578917816938916",
+                    "saldo": "-500.00",
+                    "historial": [
+                        [
+                            "2026-10-15T02:29:40.246660",
+                            "extraccion",
+                            "1"
+                        ],
+                        [
+                            "2026-10-15T02:31:38.558069",
+                            "extraccion",
+                            "499"
+                        ]
+                    ],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "7873844044317587149840",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "1710888078775304812217",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "6829247148350554685380",
+                    "saldo": "500500000.00",
+                    "historial": [
+                        [
+                            "2026-10-15T15:04:03.420812",
+                            "deposito",
+                            "500000"
+                        ],
+                        [
+                            "2026-10-15T16:13:07.985268",
+                            "deposito",
+                            "500000000"
+                        ]
+                    ]
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "4074087643110203459959",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "6841363714281824735272",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "3033011348931115164771",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "444"
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "9315043500500084152712",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "4625726414467568174835",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "ahorro",
+                    "numero": "6515893827014684661696",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "2289049400133426374923",
+                    "saldo": "44.00",
+                    "historial": [
+                        [
+                            "2026-10-18T22:42:57.057126",
+                            "deposito",
+                            "44"
+                        ]
+                    ],
+                    "descubierto": "55"
+                }
+            ]
+        },
+        {
+            "nombre": "Soledad",
+            "dni": "30221301",
+            "cuentas": [
+                {
+                    "tipo": "ahorro",
+                    "numero": "8870907906378360237155",
+                    "saldo": "50005.00",
+                    "historial": [
+                        [
+                            "2026-10-19T15:45:54.811283",
+                            "deposito",
+                            "50000"
+                        ],
+                        [
+                            "2026-10-19T15:46:03.746633",
+                            "deposito",
+                            "5"
+                        ]
+                    ]
+                }
+            ]
+        },
+        {
+            "nombre": "Emiliano",
+            "dni": "53711069",
+            "cuentas": []
+        },
+        {
+            "nombre": "Baltazar",
+            "dni": "48221209",
+            "cuentas": [
+                {
+                    "tipo": "ahorro",
+                    "numero": "9900634541933918395696",
+                    "saldo": "0.00",
+                    "historial": []
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "5241249250763781357267",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "1"
+                }
+            ]
+        },
+        {
+            "nombre": "Juan",
+            "dni": "24875238",
+            "cuentas": [
+                {
+                    "tipo": "ahorro",
+                    "numero": "5885090718653264205149",
+                    "saldo": "4996.00",
+                    "historial": [
+                        [
+                            "2026-10-20T16:08:50.519677",
+                            "deposito",
+                            "5000"
+                        ],
+                        [
+                            "2026-10-20T16:08:55.949538",
+                            "extraccion",
+                            "4"
+                        ]
+                    ]
+                },
+                {
+                    "tipo": "corriente",
+                    "numero": "5798303096967961313161",
+                    "saldo": "0.00",
+                    "historial": [],
+                    "descubierto": "500"
+                }
+            ]
+        }
+    ]
+}
