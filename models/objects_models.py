@@ -96,13 +96,13 @@ class Cuenta(ABC):
 
     @abstractmethod
 
-    def extraer(self, monto: Decimal) -> None: pass
+    def extraer(self, monto: Decimal) -> None: pass #pragma: no cover
 
     #Strs:
 
     @abstractmethod
 
-    def __str__(self) -> str: pass
+    def __str__(self) -> str: pass #pragma: no cover
 
 class CuentaAhorro(Cuenta): 
 

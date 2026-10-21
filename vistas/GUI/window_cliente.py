@@ -21,7 +21,7 @@ from core.core_gui import flujo_depositar_gui, flujo_extraer_gui
 
 # Class:
 
-class WindowCliente(QWidget):
+class WindowCliente(QWidget): #pragma: no cover
 
     # Constructor:
     def __init__(
@@ -188,7 +188,7 @@ class WindowCliente(QWidget):
 
 
 # Prueba de ventana:
-if __name__ == "__main__":
+if __name__ == "__main__": #pragma: no cover
 
     # Local imports:
     import sys

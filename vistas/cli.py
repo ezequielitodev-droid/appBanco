@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 #Funcion principal:
 
-def flujo_cli_app() -> None:
+def flujo_cli_app() -> None: # pragma: no cover
 
     #Creacion o carga del banco...
     banco = cargar_datos()

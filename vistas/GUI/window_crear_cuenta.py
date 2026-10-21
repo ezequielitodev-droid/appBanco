@@ -23,7 +23,7 @@ from core.core_gui import (
 
 # Class:
 
-class WindowCrearCuenta(QWidget):
+class WindowCrearCuenta(QWidget): #pragma: no cover
 
     # Constructor que hereda de QWidget:
     def __init__(
@@ -161,7 +161,7 @@ class WindowCrearCuenta(QWidget):
 
 # Prueba de ventana:
 
-if __name__ == "__main__":
+if __name__ == "__main__": #pragma: no cover
 
     # Local Imports:
     import sys

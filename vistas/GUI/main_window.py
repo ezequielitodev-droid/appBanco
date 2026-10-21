@@ -21,7 +21,7 @@ from vistas.GUI.window_crear_cuenta import WindowCrearCuenta
 
 #Class:
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow): #pragma: no cover
 
     #Constructor:
     def __init__(

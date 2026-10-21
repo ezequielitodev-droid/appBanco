@@ -18,7 +18,7 @@ from core.core_gui import flujo_seleccionar_cliente_gui, flujo_mostrar_clientes_
 
 # Class:
 
-class WindowGestionCliente(QWidget):
+class WindowGestionCliente(QWidget): #pragma: no cover
 
     # Constructor:
     def __init__(
@@ -168,7 +168,7 @@ class WindowGestionCliente(QWidget):
 
 # Prueba de ventana:
 
-if __name__ == "__main__":
+if __name__ == "__main__": #pragma: no cover
 
     # Importo localmente lo necesario:
     import sys

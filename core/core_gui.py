@@ -47,7 +47,7 @@ def flujo_crear_cuenta_ahorro_gui(
         banco: Banco | None = None, 
         cliente: Cliente | None = None, 
         v_padre: QWidget | None = None
-    ) -> None:
+    ) -> None: #pragma: no cover
 
     """
     
@@ -93,7 +93,7 @@ def flujo_crear_cuenta_corriente_gui(
         banco: Banco | None = None, 
         cliente: Cliente | None = None, 
         v_padre: QWidget | None = None
-) -> None:
+) -> None: #pragma: no cover
 
     """
     Modulo encargado de ejecutar la accion "Crear una Cuenta Corriente en un Cliente con la GUI"...
@@ -230,7 +230,7 @@ def flujo_depositar_gui(
         banco: Banco | None = None, 
         cliente: Cliente | None = None, 
         v_padre: QWidget | None = None
-) -> None: 
+) -> None: #pragma: no cover
 
     """
     Modulo encargado de ejecutar la accion de "Depositar en una cuenta, sea Corriente o de Ahorro, en la GUI"...
@@ -407,7 +407,7 @@ def flujo_extraer_gui(
         banco: Banco | None = None, 
         cliente: Cliente | None = None, 
         v_padre: QWidget | None = None
-) -> None:
+) -> None: #pragma: no cover
 
     """
     Modulo encargado de ejecutar la accion de "Extraer un monto de alguna cuenta de algun Cliente, sea de Ahorro o Corriente, en la GUI"...
@@ -581,7 +581,7 @@ def flujo_extraer_gui(
 def flujo_seleccionar_cliente_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
-) -> Cliente | None:
+) -> Cliente | None: #pragma: no cover
 
     """
     Modulo encargado de ejecutar la accion de "Seleccionar un cliente para pasar a la vista de Gestion de Cliente, en la GUI"...
@@ -690,7 +690,7 @@ def flujo_seleccionar_cliente_gui(
 def flujo_mostrar_clientes_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
-) -> None:
+) -> None: #pragma: no cover
 
     if not banco: 
         return
@@ -850,7 +850,7 @@ def flujo_mostrar_clientes_gui(
 def flujo_dar_alta_cliente_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
-) -> None:
+) -> None: #pragma: no cover
 
     if not banco: return
 
@@ -969,7 +969,7 @@ def flujo_dar_alta_cliente_gui(
 def flujo_resumen_banco_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
-) -> None:
+) -> None: #pragma: no cover
 
     if not banco: 
         return

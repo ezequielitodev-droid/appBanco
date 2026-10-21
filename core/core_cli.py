@@ -254,7 +254,7 @@ def flujo_extraer_cli(banco: Banco, cliente: Cliente) -> None:
             
     input("\nPresione Enter para continuar...")
 
-def flujo_crear_cuenta_cli(banco: Banco, cliente: Cliente) -> None:
+def flujo_crear_cuenta_cli(banco: Banco, cliente: Cliente) -> None: #pragma: no cover
 
     """
     
@@ -317,7 +317,7 @@ def flujo_mostrar_clientes_en_gestion(banco: Banco) -> None:
 
     input("\nPresione Enter para continuar...")
 
-def flujo_seleccionar_clientes_en_gestion_cli(banco: Banco) -> None:
+def flujo_seleccionar_clientes_en_gestion_cli(banco: Banco) -> None: # pragma: no cover
 
     """
     
@@ -365,7 +365,7 @@ def flujo_seleccionar_clientes_en_gestion_cli(banco: Banco) -> None:
         logger.warning(f"Intento de selección de cliente fallido en CLI: DNI {dni_cliente} no encontrado.")
         time.sleep(1.5)
 
-def flujo_gestion_clientes_cli(banco: Banco) -> None:
+def flujo_gestion_clientes_cli(banco: Banco) -> None: # pragma: no cover
 
     """
     
