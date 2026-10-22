@@ -20,18 +20,49 @@ from core.core_gui import flujo_seleccionar_cliente_gui, flujo_mostrar_clientes_
 
 class WindowGestionCliente(QWidget): #pragma: no cover
 
+    """
+        Representa la vista de menú de gestión de clientes (`QWidget`) en la GUI.
+
+        Permite listar todos los clientes registrados en el banco, seleccionar un cliente
+        específico para desplegar su vista de operaciones o regresar al menú principal,
+        manteniendo la estética oscura corporativa.
+
+        Attributes:
+            banco (Banco | None): Instancia actual del banco.
+
+        Examples:
+            >>> # ventana_gestion = WindowGestionCliente(parent=None, banco=banco)
+            >>> # ventana_gestion.show()
+    """
+
     # Constructor:
     def __init__(
             self, 
             parent: QWidget | None = None, 
             banco: Banco | None = None
     ) -> None:
+
+        """
+            Inicializa la ventana de gestión de clientes configurando el modelo de datos
+            y construyendo los componentes visuales de la interfaz.
+
+            Args:
+                parent (QWidget | None, optional): Widget padre de la vista.
+                banco (Banco | None, optional): Instancia del banco actual.
+        """
+        
         super().__init__(parent)
         self.banco: Banco | None = banco
         self.init_ui()
 
     # Methods:
     def ejecutar_seleccionar_cliente(self) -> None:
+
+        """
+            Invoca el flujo visual para seleccionar un cliente de la lista e instancia
+            dinámicamente su vista de operaciones (`WindowCliente`), añadiéndola a la pila principal.
+        """
+
         from typing import cast, Any
         from vistas.GUI.window_cliente import WindowCliente
 
@@ -60,6 +91,11 @@ class WindowGestionCliente(QWidget): #pragma: no cover
         ventana_principal.stacked_widget.setCurrentIndex(indice_nueva_pagina)
 
     def ejecutar_mostrar_cliente(self) -> None:
+
+        """
+            Invoca el flujo visual para desplegar la tabla general de clientes y cuentas.
+        """
+
         # Llamamos a la logica ya hecha:
         flujo_mostrar_clientes_gui(
             self.banco, 
@@ -67,6 +103,11 @@ class WindowGestionCliente(QWidget): #pragma: no cover
         )
 
     def ejecutar_volver_atras(self) -> None:
+
+        """
+            Navega de regreso al menú principal de la aplicación (Índice 0 en la pila principal).
+        """
+
         from typing import cast, Any
 
         # self.window() obtiene directamente la ventana principal (MainWindow)
@@ -74,6 +115,11 @@ class WindowGestionCliente(QWidget): #pragma: no cover
         ventana_principal.stacked_widget.setCurrentIndex(0)
 
     def init_ui(self) -> None:
+
+        """
+            Configura la estructura de contenedores, los botones de acción, las conexiones
+            de eventos y los estilos visuales de la ventana de gestión.
+        """
 
         # Configuración básica del contenedor:
         layout_exterior = QVBoxLayout(self)

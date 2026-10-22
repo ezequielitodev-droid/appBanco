@@ -23,18 +23,55 @@ from vistas.GUI.window_crear_cuenta import WindowCrearCuenta
 
 class MainWindow(QMainWindow): #pragma: no cover
 
+    """
+        Representa la ventana principal (`QMainWindow`) de la interfaz gráfica (GUI) del sistema bancario.
+
+        Actúa como contenedor central utilizando un `QStackedWidget` para administrar
+        la navegación entre las distintas vistas de la aplicación (Menú principal,
+        gestión de clientes, panel de operaciones y creación de cuentas), aplicando
+        una paleta de colores corporativa oscura y moderna.
+
+        Attributes:
+            banco (Banco | None): Instancia actual de la entidad bancaria administrada.
+            stacked_widget (QStackedWidget): Pila de navegación entre páginas de la interfaz.
+            main_page (QWidget): Página inicial correspondiente al menú principal.
+            pagina_gestion (WindowGestionCliente): Vista para listar y gestionar clientes.
+            pagina_cliente (WindowCliente): Vista para las operaciones del cliente activo.
+            pagina_crear_cuenta (WindowCrearCuenta): Vista para la creación de cuentas.
+
+        Examples:
+            >>> # app = QApplication([])
+            >>> # ventana_principal = MainWindow(banco=banco_instancia)
+            >>> # ventana_principal.show()
+    """
+
     #Constructor:
     def __init__(
             self, 
             parent: QWidget | None = None, 
             banco: Banco | None = None
     ) -> None:
+
+        """
+            Inicializa la ventana principal de la GUI configurando el modelo de datos
+            y construyendo los componentes visuales de la interfaz.
+
+            Args:
+                parent (QWidget | None, optional): Widget padre de la ventana.
+                banco (Banco | None, optional): Instancia del banco a gestionar.
+        """
+        
         super().__init__(parent)
         self.banco: Banco | None = banco
         self.init_ui()
 
     #Methods:
     def ejecutar_dar_alta_cliente(self) -> None:
+
+        """
+            Ejecuta el flujo visual mediante un cuadro de diálogo para dar de alta
+            a un nuevo cliente en el banco.
+        """
         
         # Llamamos a la función de flujo:
         flujo_dar_alta_cliente_gui(
@@ -44,17 +81,32 @@ class MainWindow(QMainWindow): #pragma: no cover
 
     def ejecutar_resumen(self) -> None:
 
+        """
+        Ejecuta el flujo visual para mostrar el panel de estadísticas
+        y resumen general del banco.
+        """
+
          #Llamamos a la función de flujo:
-         flujo_resumen_banco_gui(
-             self.banco, 
-             self
-         )
+        
+        flujo_resumen_banco_gui(
+            self.banco, 
+            self
+        )
 
     def ejecutar_seleccionar_cliente(self) -> None:
+
+        """
+            Navega desde el menú principal hacia la vista de gestión y selección de clientes.
+        """
 
         self.stacked_widget.setCurrentWidget(self.pagina_gestion) # Salta a la página 1
 
     def init_ui(self) -> None:
+
+        """
+            Configura la geometría, los componentes del menú principal, la pila de navegación (`QStackedWidget`),
+            las conexiones de eventos de los botones y los estilos visuales de la ventana.
+        """
 
         #Configuración basica de la ventana:
         self.setWindowTitle("Sistema de Gestión Bancaria")

@@ -22,6 +22,18 @@ import core.core_cli as core_cli_mod
 NUMERO_PRUEBA = "1" * 22
 
 def test_flujo_dar_alta_cliente_exitoso(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de alta de cliente en el CLI registre exitosamente
+        a un nuevo cliente simulando los inputs de nombre y DNI.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos del sistema.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     
     # Simulamos inputs: nombre y DNI, luego el Enter final para continuar
@@ -35,6 +47,18 @@ def test_flujo_dar_alta_cliente_exitoso(monkeypatch) -> None:
     assert banco.clientes[0].get_nombre() == "Carlos"
 
 def test_flujo_dar_alta_cliente_dni_duplicado(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de alta de cliente en el CLI capture adecuadamente
+        el ValueError al intentar registrar un DNI duplicado sin interrumpir la ejecución.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos del sistema.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     banco.alta_cliente("Carlos", "12345678")
     
@@ -48,6 +72,19 @@ def test_flujo_dar_alta_cliente_dni_duplicado(monkeypatch) -> None:
     assert len(banco.clientes) == 1  # Sigue siendo 1 solo
 
 def test_flujo_resumen_de_banco(monkeypatch, capsys) -> None:
+
+    """
+        Prueba que el flujo interactivo de resumen del banco imprima correctamente
+        la información general en la salida estándar de la terminal.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+            capsys: Fixture para capturar la salida estándar (stdout).
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     banco.alta_cliente("Ana", "87654321")
     
@@ -59,6 +96,18 @@ def test_flujo_resumen_de_banco(monkeypatch, capsys) -> None:
     assert "RESUMEN DEL BANCO BancoPrueba" in captured.out
 
 def test_flujo_salida_guardado_programa(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de salida y guardado del programa se ejecute
+        correctamente simulando las pausas de tiempo y comandos del sistema.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular time.sleep y os.system.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     
     monkeypatch.setattr("os.system", lambda cmd: None)
@@ -68,6 +117,18 @@ def test_flujo_salida_guardado_programa(monkeypatch) -> None:
     flujo_salida_guardado_programa(banco)
 
 def test_flujo_crear_cuenta_ahorro_cli(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo CLI para crear una cuenta de ahorro asocie correctamente
+        la nueva cuenta al cliente especificado.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Lucia", "11223344")
     
@@ -79,6 +140,18 @@ def test_flujo_crear_cuenta_ahorro_cli(monkeypatch) -> None:
     assert isinstance(cliente.cuentas[0], CuentaAhorro)
 
 def test_flujo_crear_cuenta_corriente_cli_por_defecto(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo CLI para crear una cuenta corriente configure por defecto
+        el monto de descubierto cuando se ingresan valores vacíos.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Pedro", "22334455")
     
@@ -93,6 +166,18 @@ def test_flujo_crear_cuenta_corriente_cli_por_defecto(monkeypatch) -> None:
     assert cliente.cuentas[0].get_descubierto() == Decimal("500")
 
 def test_flujo_depositar_cli_sin_cuentas(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de depósito en el CLI maneje correctamente el escenario
+        en el que un cliente no posee cuentas asociadas.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Marcos", "33445566")
     
@@ -103,6 +188,18 @@ def test_flujo_depositar_cli_sin_cuentas(monkeypatch) -> None:
     assert len(cliente.cuentas) == 0
 
 def test_flujo_depositar_cli_con_cuenta(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de depósito en el CLI incremente correctamente el saldo
+        de una cuenta existente al recibir un monto válido.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Sofía", "44556677")
     cuenta = CuentaAhorro(NUMERO_PRUEBA)
@@ -117,6 +214,18 @@ def test_flujo_depositar_cli_con_cuenta(monkeypatch) -> None:
     assert cuenta.get_saldo() == Decimal("1000")
 
 def test_flujo_extraer_cli_con_cuenta(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de extracción en el CLI reduzca correctamente el saldo
+        de una cuenta existente al retirar un monto válido.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Mateo", "55667788")
     cuenta = CuentaAhorro(NUMERO_PRUEBA, saldo=Decimal("2000"))
@@ -144,6 +253,19 @@ def test_flujo_extraer_cli_con_cuenta(monkeypatch) -> None:
     flujo_gestion_clientes_cli(banco)"""
 
 def test_flujo_mostrar_clientes_con_y_sin_clientes(monkeypatch, capsys) -> None:
+
+    """
+        Prueba que el flujo para mostrar clientes en gestión maneje adecuadamente
+        tanto el estado sin clientes como el listado con clientes registrados.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+            capsys: Fixture para capturar la salida estándar (stdout).
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     monkeypatch.setattr("builtins.input", lambda prompt="": "")
     monkeypatch.setattr("os.system", lambda cmd: None)
@@ -160,6 +282,18 @@ def test_flujo_mostrar_clientes_con_y_sin_clientes(monkeypatch, capsys) -> None:
     assert "Esteban" in captured.out
 
 def test_flujo_seleccionar_cliente_no_encontrado(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de selección de clientes en el CLI gestione correctamente
+        el escenario en el que se ingresa un DNI inexistente.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     
     monkeypatch.setattr("builtins.input", lambda prompt="": "99999999")
@@ -170,6 +304,18 @@ def test_flujo_seleccionar_cliente_no_encontrado(monkeypatch) -> None:
 
 
 def test_flujo_crear_cuenta_menu_opciones(monkeypatch) -> None:
+
+    """
+        Prueba que el menú interactivo para crear cuentas en el CLI procese
+        correctamente las opciones seleccionadas mediante el mock del menú.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y funciones del menú.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Valeria", "66778899")
     
@@ -191,6 +337,18 @@ def test_flujo_crear_cuenta_menu_opciones(monkeypatch) -> None:
     assert len(cliente.cuentas) == 1
 
 def test_flujo_dar_alta_cliente_error_inesperado(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de alta de cliente en el CLI capture de forma segura
+        excepciones genéricas imprevistas (RuntimeError).
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y forzar errores.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     
     # Forzamos que banco.alta_cliente lance un error genérico que no sea ValueError (ej. RuntimeError)
@@ -206,6 +364,18 @@ def test_flujo_dar_alta_cliente_error_inesperado(monkeypatch) -> None:
     flujo_dar_alta_cliente(banco)
 
 def test_flujo_crear_cuenta_ahorro_error_inesperado(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta de ahorro en el CLI gestione
+        adecuadamente errores inesperados durante su instanciación.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y forzar excepciones.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Lucia", "11223344")
     
@@ -217,6 +387,18 @@ def test_flujo_crear_cuenta_ahorro_error_inesperado(monkeypatch) -> None:
     flujo_crear_cuenta_ahorro_cli(banco, cliente)
 
 def test_flujo_crear_cuenta_corriente_monto_invalido(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta corriente en el CLI capture
+        formatos de descubierto inválidos (texto) sin registrar cuentas erróneas.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs inválidos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Pedro", "22334455")
     
@@ -229,6 +411,18 @@ def test_flujo_crear_cuenta_corriente_monto_invalido(monkeypatch) -> None:
     assert len(cliente.cuentas) == 0  # No se creó por el ValueError
 
 def test_flujo_depositar_cli_monto_invalido(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de depósito en el CLI mantenga intacto el saldo
+        cuando se ingresa un monto con formato inválido (letras).
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs inválidos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Sofía", "44556677")
     cuenta = CuentaAhorro(NUMERO_PRUEBA)
@@ -243,6 +437,18 @@ def test_flujo_depositar_cli_monto_invalido(monkeypatch) -> None:
     assert cuenta.get_saldo() == Decimal("0")  # El saldo no cambió
 
 def test_flujo_extraer_cli_sin_cuentas(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de extracción en el CLI maneje de forma controlada
+        el caso en que un cliente carece de cuentas asociadas.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y comandos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Mateo", "55667788")
     
@@ -254,6 +460,18 @@ def test_flujo_extraer_cli_sin_cuentas(monkeypatch) -> None:
     assert len(cliente.cuentas) == 0
 
 def test_flujo_extraer_cli_monto_invalido(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de extracción en el CLI conserve el saldo original
+        al ingresar un monto con formato inválido.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs inválidos.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Mateo", "55667788")
     cuenta = CuentaAhorro(NUMERO_PRUEBA, saldo=Decimal("2000"))
@@ -268,6 +486,18 @@ def test_flujo_extraer_cli_monto_invalido(monkeypatch) -> None:
     assert cuenta.get_saldo() == Decimal("2000")  # El saldo quedó intacto
 
 def test_flujo_dar_alta_cliente_excepcion_general(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de alta de cliente en el CLI capture correctamente
+        cualquier excepción general no tipada (`except Exception as e`).
+
+        Args:
+            monkeypatch: Fixture de pytest para forzar excepciones genéricas.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     
     # Forzamos un error genérico (que no sea ValueError) para cubrir el "except Exception as e"
@@ -282,6 +512,18 @@ def test_flujo_dar_alta_cliente_excepcion_general(monkeypatch) -> None:
     flujo_dar_alta_cliente(banco)
 
 def test_flujo_crear_cuenta_ahorro_excepcion_general(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta de ahorro en el CLI capture
+        adecuadamente una excepción general inesperada.
+
+        Args:
+            monkeypatch: Fixture de pytest para forzar excepciones en tiempo de ejecución.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Lucia", "11223344")
     
@@ -293,6 +535,18 @@ def test_flujo_crear_cuenta_ahorro_excepcion_general(monkeypatch) -> None:
     flujo_crear_cuenta_ahorro_cli(banco, cliente)
 
 def test_flujo_crear_cuenta_corriente_excepcion_general(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta corriente en el CLI capture
+        correctamente excepciones generales inesperadas durante su proceso.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y forzar errores.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Pedro", "22334455")
     
@@ -305,6 +559,18 @@ def test_flujo_crear_cuenta_corriente_excepcion_general(monkeypatch) -> None:
     flujo_crear_cuenta_corriente_cli(banco, cliente)
 
 def test_flujo_crear_cuenta_ahorro_value_error(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta de ahorro en el CLI capture
+        correctamente los errores de valor (`ValueError`).
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y forzar ValueError.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Lucia", "11223344")
     
@@ -316,6 +582,18 @@ def test_flujo_crear_cuenta_ahorro_value_error(monkeypatch) -> None:
     flujo_crear_cuenta_ahorro_cli(banco, cliente)
 
 def test_flujo_crear_cuenta_corriente_value_error(monkeypatch) -> None:
+
+    """
+        Prueba que el flujo de creación de cuenta corriente en el CLI capture
+        correctamente los errores de valor al producirse un fallo interno de validación.
+
+        Args:
+            monkeypatch: Fixture de pytest para simular inputs y forzar ValueError.
+
+        Returns:
+            None
+    """
+
     banco = Banco("BancoPrueba")
     cliente = banco.alta_cliente("Pedro", "22334455")
     
@@ -332,5 +610,13 @@ def test_flujo_crear_cuenta_corriente_value_error(monkeypatch) -> None:
     assert len(cliente.cuentas) == 0
 
 def test_importar_vistas_cli():
+
+    """
+        Prueba que el módulo de vistas CLI pueda importarse correctamente sin errores.
+
+        Returns:
+            None
+    """
+    
     import vistas.cli
     assert vistas.cli is not None

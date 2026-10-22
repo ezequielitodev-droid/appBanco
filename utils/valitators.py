@@ -12,19 +12,27 @@ from utils.enums import TipoTransaccion
 def es_numero_cuenta_valido(valor: str, largo: int) -> bool:
 
     """
-    Verifica que un número de cuenta tenga un formato válido.
+        Verifica que un número de cuenta tenga un formato válido.
 
-    Se considera válido si es un string compuesto únicamente por dígitos
-    y su longitud coincide con la indicada. Los espacios al inicio y al
-    final se ignoran.
+        Se considera válido si es un string compuesto únicamente por dígitos
+        y su longitud coincide con la indicada. Los espacios al inicio y al
+        final se ignoran.
 
-    Args:
-        valor (str): Número de cuenta a validar.
-        largo (int): Cantidad exacta de dígitos que debe tener.
+        Args:
+            valor (str): Número de cuenta a validar.
+            largo (int): Cantidad exacta de dígitos que debe tener.
 
-    Returns:
-        bool: True si el número es válido, False en caso contrario
-        (incluye el caso en que `valor` no sea un str).
+        Returns:
+            bool: True si el número es válido, False en caso contrario
+            (incluye el caso en que `valor` no sea un str).
+
+        Examples:
+            >>> es_numero_cuenta_valido("12345", 5)
+            True
+            >>> es_numero_cuenta_valido("123", 5)
+            False
+            >>> es_numero_cuenta_valido(12345, 5)
+            False
     """
 
     if not isinstance(valor, str): return False
@@ -36,17 +44,28 @@ def es_numero_cuenta_valido(valor: str, largo: int) -> bool:
 def es_saldo_cuenta_valido(saldo: Decimal, cuenta) -> bool:
 
     """
-    Verifica que un saldo de cuenta sea válido.
+        Verifica que un saldo de cuenta sea válido según su tipo.
 
-    Se considera válido si es una instancia de Decimal y su valor
-    es mayor o igual a cero.
+        Se considera válido si es una instancia de Decimal. Para cuentas
+        corrientes permite un descubierto de hasta -500; para cuentas de ahorro
+        el saldo no puede ser negativo.
 
-    Args:
-        saldo (Decimal): Saldo a validar.
+        Args:
+            saldo (Decimal): Saldo a validar.
+            cuenta: Instancia de la cuenta (CuentaAhorro o CuentaCorriente).
 
-    Returns:
-        bool: True si el saldo es un Decimal no negativo, False en caso
-        contrario.
+        Returns:
+            bool: True si el saldo cumple con las reglas del tipo de cuenta,
+            False en caso contrario.
+
+        Examples:
+            >>> from decimal import Decimal
+            >>> from models.objects_models import CuentaAhorro
+            >>> c_ahorro = CuentaAhorro("12345")
+            >>> es_saldo_cuenta_valido(Decimal("100.00"), c_ahorro)
+            True
+            >>> es_saldo_cuenta_valido(Decimal("-10.00"), c_ahorro)
+            False
     """
 
     #MODIFICO ESTA FUNCION PORQUE NO TENIA CONTEMPLADO ANTES EL DESCUBIERTO, EL CUAL AHORA SI...
@@ -61,22 +80,34 @@ def es_saldo_cuenta_valido(saldo: Decimal, cuenta) -> bool:
 def es_historial_cuenta_valido(lista_historial: list[tuple[datetime, TipoTransaccion, Decimal]]) -> bool:
 
     """
-    Verifica que el historial de transacciones de una cuenta sea válido.
+        Verifica que el historial de transacciones de una cuenta sea válido.
 
-    El historial debe ser una lista donde cada elemento es una tupla de
-    tres valores: (fecha, tipo de transacción, monto). Una lista vacía
-    es válida.
+        El historial debe ser una lista donde cada elemento es una tupla de
+        tres valores: (fecha, tipo de transacción, monto). Una lista vacía
+        es válida.
 
-    Args:
-        lista_historial (list[tuple[datetime, TipoTransaccion, Decimal]]):
-            Lista de transacciones, donde cada tupla contiene:
-            - datetime: fecha y hora de la transacción.
-            - TipoTransaccion: tipo de la transacción.
-            - Decimal: monto de la transacción.
+        Args:
+            lista_historial (list[tuple[datetime, TipoTransaccion, Decimal]]):
+                Lista de transacciones, donde cada tupla contiene:
+                - datetime: fecha y hora de la transacción.
+                - TipoTransaccion: tipo de la transacción.
+                - Decimal: monto de la transacción.
 
-    Returns:
-        bool: True si la lista y todos sus elementos cumplen con la
-        estructura y los tipos esperados, False en caso contrario.
+        Returns:
+            bool: True si la lista y todos sus elementos cumplen con la
+            estructura y los tipos esperados, False en caso contrario.
+
+        Examples:
+            >>> from datetime import datetime
+            >>> from decimal import Decimal
+            >>> from utils.enums import TipoTransaccion
+            >>> historial = [(datetime(2026, 10, 22), TipoTransaccion.DEPOSITO, Decimal("500.00"))]
+            >>> es_historial_cuenta_valido(historial)
+            True
+            >>> es_historial_cuenta_valido([])
+            True
+            >>> es_historial_cuenta_valido("no_es_lista")
+            False
     """
 
     if not isinstance(lista_historial, list): return False #Validacion de la lista...
@@ -97,18 +128,24 @@ def es_historial_cuenta_valido(lista_historial: list[tuple[datetime, TipoTransac
 def es_descubierto_cuenta_valido(descubierto: Decimal) -> bool: 
 
     """
-    Verifica que el descubierto de una cuenta corriente sea válido.
+        Verifica que el descubierto de una cuenta corriente sea válido.
 
-    Se considera válido si es una instancia de Decimal y su valor
-    es mayor o igual a cero (un descubierto de 0 significa que la
-    cuenta no admite saldo negativo).
+        Se considera válido si es una instancia de Decimal y su valor
+        se encuentra entre 0 y 500 inclusive.
 
-    Args:
-        descubierto (Decimal): Monto máximo de descubierto a validar.
+        Args:
+            descubierto (Decimal): Monto máximo de descubierto a validar.
 
-    Returns:
-        bool: True si el descubierto es un Decimal no negativo, False
-        en caso contrario.
+        Returns:
+            bool: True si el descubierto es un Decimal válido, False
+            en caso contrario.
+
+        Examples:
+            >>> from decimal import Decimal
+            >>> es_descubierto_cuenta_valido(Decimal("200.00"))
+            True
+            >>> es_descubierto_cuenta_valido(Decimal("600.00"))
+            False
     """
 
 
@@ -121,18 +158,25 @@ def es_descubierto_cuenta_valido(descubierto: Decimal) -> bool:
 def es_monto_valido(monto: Decimal) -> bool:
 
     """
-    Verifica que el monto de una transacción sea válido.
+        Verifica que el monto de una transacción sea válido.
 
-    Se considera válido si es una instancia de Decimal y su valor
-    es estrictamente mayor a cero. A diferencia del saldo, un monto
-    de 0 no es válido, ya que no representa una operación real.
+        Se considera válido si es una instancia de Decimal y su valor
+        es estrictamente mayor a cero. A diferencia del saldo, un monto
+        de 0 no es válido, ya que no representa una operación real.
 
-    Args:
-        monto (Decimal): Monto a depositar o extraer.
+        Args:
+            monto (Decimal): Monto a depositar o extraer.
 
-    Returns:
-        bool: True si el monto es un Decimal mayor a cero, False en
-        caso contrario.
+        Returns:
+            bool: True si el monto es un Decimal mayor a cero, False en
+            caso contrario.
+
+        Examples:
+            >>> from decimal import Decimal
+            >>> es_monto_valido(Decimal("50.00"))
+            True
+            >>> es_monto_valido(Decimal("0.00"))
+            False
     """
 
     return isinstance(monto, Decimal) and monto > 0
@@ -144,18 +188,26 @@ def es_monto_valido(monto: Decimal) -> bool:
 def es_nombre_cliente_valido(nombre: str) -> bool:
 
     """
-    Verifica que el nombre de un cliente sea válido.
+        Verifica que el nombre de un cliente sea válido.
 
-    Se considera válido si es un string que contiene al menos un
-    carácter distinto de espacio. Los espacios al inicio y al final
-    se ignoran.
+        Se considera válido si es un string que contiene al menos un
+        carácter distinto de espacio. Los espacios al inicio y al final
+        se ignoran.
 
-    Args:
-        nombre (str): Nombre del cliente a validar.
+        Args:
+            nombre (str): Nombre del cliente a validar.
 
-    Returns:
-        bool: True si el nombre es un str no vacío, False en caso
-        contrario (incluye el caso en que `nombre` no sea un str).
+        Returns:
+            bool: True si el nombre es un str no vacío, False en caso
+            contrario (incluye el caso en que `nombre` no sea un str).
+
+        Examples:
+            >>> es_nombre_cliente_valido("Ezequiel")
+            True
+            >>> es_nombre_cliente_valido("   ")
+            False
+            >>> es_nombre_cliente_valido(123)
+            False
     """
 
     return isinstance(nombre, str) and len(nombre.strip()) > 0
@@ -163,19 +215,27 @@ def es_nombre_cliente_valido(nombre: str) -> bool:
 def es_dni_cliente_valido(dni: str) -> bool:
 
     """
-    Verifica que el DNI de un cliente tenga un formato válido.
+        Verifica que el DNI de un cliente tenga un formato válido.
 
-    Se considera válido si es un string compuesto únicamente por
-    dígitos, con 7 u 8 de largo. Los espacios al inicio y al final,
-    y los puntos separadores (por ejemplo "12.345.678"), se ignoran
-    al validar.
+        Se considera válido si es un string compuesto únicamente por
+        dígitos, con 7 u 8 de largo. Los espacios al inicio y al final,
+        y los puntos separadores (por ejemplo "12.345.678"), se ignoran
+        al validar.
 
-    Args:
-        dni (str): DNI a validar, con o sin puntos.
+        Args:
+            dni (str): DNI a validar, con o sin puntos.
 
-    Returns:
-        bool: True si el DNI cumple el formato, False en caso
-        contrario (incluye el caso en que `dni` no sea un str).
+        Returns:
+            bool: True si el DNI cumple el formato, False en caso
+            contrario (incluye el caso en que `dni` no sea un str).
+
+        Examples:
+            >>> es_dni_cliente_valido("12.345.678")
+            True
+            >>> es_dni_cliente_valido("1234567")
+            True
+            >>> es_dni_cliente_valido("1234")
+            False
     """
 
     if not isinstance(dni, str): return False
@@ -189,6 +249,27 @@ def es_dni_cliente_valido(dni: str) -> bool:
 #Bancos------------------------------------
 
 def es_nombre_banco_valido(nombre: str) -> bool:
+
+    """
+        Verifica que el nombre de un banco sea válido.
+
+        Se considera válido si es un string que contiene al menos un
+        carácter distinto de espacio. Los espacios al inicio y al final
+        se ignoran.
+
+        Args:
+            nombre (str): Nombre del banco a validar.
+
+        Returns:
+            bool: True si el nombre es un str no vacío, False en caso
+            contrario (incluye el caso en que `nombre` no sea un str).
+
+        Examples:
+            >>> es_nombre_banco_valido("Banco Central")
+            True
+            >>> es_nombre_banco_valido("   ")
+            False
+    """
 
     return isinstance(nombre, str) and len(nombre.strip()) > 0
 

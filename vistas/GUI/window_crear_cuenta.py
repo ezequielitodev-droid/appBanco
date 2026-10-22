@@ -25,6 +25,23 @@ from core.core_gui import (
 
 class WindowCrearCuenta(QWidget): #pragma: no cover
 
+    """
+        Representa la vista de selección y creación de cuentas (`QWidget`) para un cliente en la GUI.
+
+        Permite al usuario elegir entre crear una cuenta de ahorro o una cuenta corriente
+        para el cliente activo, invocando los flujos correspondientes y manejando
+        el retorno dinámico a la ventana previa mediante el sistema de navegación.
+
+        Attributes:
+            banco (Banco | None): Instancia actual del banco.
+            cliente (Cliente | None): Instancia del cliente al cual se le asociará la cuenta.
+            preview_window (QWidget | None): Referencia a la ventana anterior para un retorno fluido.
+
+        Examples:
+            >>> # ventana_crear = WindowCrearCuenta(parent=None, banco=banco, cliente=cliente, preview_window=ventana_anterior)
+            >>> # ventana_crear.show()
+    """
+
     # Constructor que hereda de QWidget:
     def __init__(
             self, 
@@ -33,6 +50,18 @@ class WindowCrearCuenta(QWidget): #pragma: no cover
             cliente: Cliente | None = None, 
             preview_window: QWidget | None = None
     ) -> None:
+
+        """
+            Inicializa la ventana de creación de cuentas configurando los modelos de datos
+            y construyendo los componentes visuales de la interfaz.
+
+            Args:
+                parent (QWidget | None, optional): Widget padre de la vista.
+                banco (Banco | None, optional): Instancia del banco actual.
+                cliente (Cliente | None, optional): Instancia del cliente titular.
+                preview_window (QWidget | None, optional): Ventana previa para navegación hacia atrás.
+        """
+        
         super().__init__(parent)
         self.banco: Banco | None = banco
         self.cliente: Cliente | None = cliente
@@ -41,18 +70,44 @@ class WindowCrearCuenta(QWidget): #pragma: no cover
 
     # Methods:
     def cargar_cliente(self, cliente: Cliente) -> None:
+
+        """
+            Actualiza dinámicamente el cliente asociado al navegar entre vistas.
+
+            Args:
+                cliente (Cliente): Nueva instancia de cliente activo.
+
+            Returns:
+                None
+        """
+
         # Método para actualizar dinámicamente el cliente si es necesario al navegar
         self.cliente = cliente
 
     def ejecutar_crear_cuenta_ahorro(self) -> None:
+
+        """
+            Ejecuta el flujo visual de la GUI para crear y asociar una cuenta de ahorro.
+        """
+
         # Llamamos a la funcion encargada de esta tarea:
         flujo_crear_cuenta_ahorro_gui(self.banco, self.cliente, self)
 
     def ejecutar_crear_cuenta_corriente(self) -> None:
+
+        """
+            Ejecuta el flujo visual de la GUI para crear y asociar una cuenta corriente.
+        """
+
         # Llamamos a la funcion encargada de esta tarea:
         flujo_crear_cuenta_corriente_gui(self.banco, self.cliente, self)
 
     def ejecutar_volver_atras(self) -> None:
+
+        """
+            Navega de regreso a la ventana anterior guardada en `preview_window`.
+        """
+
         from typing import cast, Any
 
         # Si tenemos guardada la ventana anterior, volvemos exactamente a ella de forma dinámica
@@ -62,6 +117,11 @@ class WindowCrearCuenta(QWidget): #pragma: no cover
 
     # Modulo instanciador:
     def init_ui(self) -> None:
+
+        """
+            Configura la estructura de contenedores, los botones de opción (ahorro o corriente),
+            las conexiones de eventos y los estilos visuales de la ventana.
+        """
 
         # Configuración básica del contenedor exterior:
         layout_exterior = QVBoxLayout(self)

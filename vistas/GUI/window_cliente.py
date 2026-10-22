@@ -23,6 +23,23 @@ from core.core_gui import flujo_depositar_gui, flujo_extraer_gui
 
 class WindowCliente(QWidget): #pragma: no cover
 
+    """
+        Representa la vista de menú de operaciones (`QWidget`) para un cliente específico en la GUI.
+
+        Permite visualizar la información del cliente activo y acceder a las opciones
+        para crear cuentas nuevas (ahorro o corriente), realizar depósitos, extracciones
+        o regresar al menú anterior de gestión, manteniendo la estética oscura corporativa.
+
+        Attributes:
+            banco (Banco | None): Instancia del banco actual.
+            cliente (Cliente | None): Instancia del cliente actualmente seleccionado.
+            label_titulo_cliente (QLabel): Etiqueta visual con los datos del cliente.
+
+        Examples:
+            >>> # ventana_cliente = WindowCliente(parent=None, banco=banco, cliente=cliente)
+            >>> # ventana_cliente.show()
+    """
+
     # Constructor:
     def __init__(
             self, 
@@ -30,6 +47,17 @@ class WindowCliente(QWidget): #pragma: no cover
             banco: Banco | None = None,
             cliente: Cliente | None = None, 
     ) -> None:
+
+        """
+            Inicializa la ventana de operaciones del cliente configurando el modelo de datos
+            y construyendo los componentes visuales de la interfaz.
+
+            Args:
+                parent (QWidget | None, optional): Widget padre de la vista.
+                banco (Banco | None, optional): Instancia de la entidad bancaria.
+                cliente (Cliente | None, optional): Instancia del cliente activo.
+        """
+        
         super().__init__(parent)
         self.banco: Banco | None = banco
         self.cliente: Cliente | None = cliente
@@ -37,12 +65,29 @@ class WindowCliente(QWidget): #pragma: no cover
 
     # Methods:
     def cargar_cliente(self, cliente: Cliente) -> None:
+
+        """
+            Actualiza dinámicamente el cliente activo al navegar desde la vista de selección.
+
+            Args:
+                cliente (Cliente): Nueva instancia de cliente seleccionado.
+
+            Returns:
+                None
+        """
+
         # Método para actualizar dinámicamente el cliente activo al navegar desde la selección
         self.cliente = cliente
         if self.cliente:
             self.label_titulo_cliente.setText(f"Cliente: {self.cliente.get_nombre()}\nDNI: {self.cliente.get_dni()}")
 
     def ejecutar_crear_cuenta(self) -> None:
+
+        """
+            Instancia y despliega de forma dinámica la vista de creación de cuentas (`WindowCrearCuenta`)
+            añadiéndola a la pila de navegación principal (`QStackedWidget`).
+        """
+
         # Importamos localmente la ventana hija asi no hay importacion circular:
         from vistas.GUI.window_crear_cuenta import WindowCrearCuenta
         from typing import cast, Any
@@ -66,6 +111,10 @@ class WindowCliente(QWidget): #pragma: no cover
 
     def ejecutar_deposito(self) -> None:
 
+        """
+            Ejecuta el flujo visual mediante diálogo para realizar un depósito en una cuenta del cliente.
+        """
+
         # Llamamos a la funcion que tiene el flujo:
         flujo_depositar_gui(
             self.banco, 
@@ -74,6 +123,11 @@ class WindowCliente(QWidget): #pragma: no cover
         )
 
     def ejecutar_extracion(self) -> None:
+
+        """
+            Ejecuta el flujo visual mediante diálogo para realizar una extracción de una cuenta del cliente.
+        """
+
         # Llamamos a la funcion que tiene el flujo:
         flujo_extraer_gui(
             self.banco, 
@@ -82,6 +136,11 @@ class WindowCliente(QWidget): #pragma: no cover
         )
 
     def ejecutar_volver_atras(self) -> None:
+
+        """
+            Navega de regreso a la página de gestión de clientes (Índice 1 en la pila principal).
+        """
+
         from typing import cast, Any
 
         # Volvemos a la página de gestión de clientes (Índice 1 en la pila principal)
@@ -90,6 +149,11 @@ class WindowCliente(QWidget): #pragma: no cover
             ventana_principal.stacked_widget.setCurrentIndex(1)
 
     def init_ui(self) -> None:
+
+        """
+            Configura los componentes del menú de operaciones, los diseños de contenedores,
+            las conexiones de eventos de los botones y los estilos visuales de la vista.
+        """
 
         # Configuración básica del contenedor:
         layout_exterior = QVBoxLayout(self)

@@ -17,6 +17,35 @@ ARCHIVO_DATOS= CARPETA_DATOS / "banco_datos.json"
 #Funciones:
 
 def guardar_datos(banco: Banco) -> None:
+    
+    """
+        Serializa y guarda el estado actual del banco en un archivo JSON local.
+
+        Recorre la estructura de objetos del banco (clientes, cuentas y el historial
+        de transacciones de cada una), convirtiendo tipos de datos complejos que
+        JSON no soporta de forma nativa (como `Decimal`, `datetime` y `TipoTransaccion`)
+        en tipos primitivos compatibles (cadenas de texto y formatos ISO).
+
+        Args:
+            banco (Banco): La instancia del objeto Banco que contiene todos los datos a persistir.
+
+        Returns:
+            None
+
+        Raises:
+            OSError: Si ocurre un error al intentar escribir o crear el archivo en el disco.
+
+        Examples:
+            >>> banco = Banco("Banco Central")
+            >>> cliente = banco.alta_cliente("Juan Pérez", "12345678")
+            >>> cuenta = CuentaAhorro("CA-001", saldo=Decimal("1500.00"))
+            >>> cliente.agregar_cuenta(cuenta)
+            >>> guardar_datos(banco)
+
+        Note:
+            El archivo resultante se almacena en la ruta definida por `ARCHIVO_DATOS`
+            utilizando codificación UTF-8 e indentación de 4 espacios para legibilidad.
+    """
 
     data = {
         "nombre": banco.get_nombre(),
@@ -52,6 +81,31 @@ def guardar_datos(banco: Banco) -> None:
         json.dump(data, f, indent=4)
 
 def cargar_datos() -> Banco:
+
+    """
+        Carga y reconstruye el estado del banco desde el archivo JSON local.
+
+        Lee el archivo de persistencia, deserializa los datos primitivos y los
+        reconvierte a sus tipos originales de dominio (instancias de `Decimal` para
+        montos y saldos, objetos `datetime` para fechas, `TipoTransaccion` para los enums
+        y las subclases correspondientes de cuentas y clientes).
+
+        Returns:
+            Banco: Una nueva instancia de Banco con todos sus clientes, cuentas
+            y historiales completamente restaurados. Si el archivo no existe,
+            retorna un objeto Banco nuevo con un nombre predeterminado ("Mi Banco").
+
+        Raises:
+            json.JSONDecodeError: Si el archivo JSON está corrupto o mal formado.
+            KeyError: Si falta alguna clave obligatoria en la estructura del archivo.
+
+        Examples:
+            >>> banco_restaurado = cargar_datos()
+            >>> banco_restaurado.get_nombre()
+            'Banco Central'
+            >>> len(banco_restaurado.clientes) > 0
+            True
+    """
 
     if not ARCHIVO_DATOS.exists():
         return Banco("Mi Banco")

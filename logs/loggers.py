@@ -5,9 +5,29 @@ import logging
 #Modulo instrumental:
 
 def configurar_logging() -> None:
-
+    
     """
-    Configura el logging de la aplicación. Se llama una sola vez, desde main.py.
+        Configura el sistema de registro (logging) global de la aplicación.
+
+        Establece un manejador de archivos (`app.log`) con codificación UTF-8,
+        define el nivel mínimo de registro en INFO y establece un formato
+        estándar para todos los mensajes. Se recomienda llamarlo una única vez
+        al inicio de la ejecución desde el archivo principal (`main.py`).
+
+        Returns:
+            None
+
+        Examples:
+            Así es como se debe invocar la función al arrancar la aplicación en `main.py`:
+
+            >>> if __name__ == "__main__":
+            ...     configurar_logging()
+            ...     logger = logging.getLogger(__name__)
+            ...     logger.info("Aplicación iniciada correctamente.")
+
+        Note:
+            Los registros se almacenarán localmente en el archivo 'app.log'
+            ubicado en la raíz del proyecto.
     """
 
     #Definicion de parlantes:

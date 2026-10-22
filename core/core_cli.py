@@ -35,9 +35,22 @@ logger = logging.getLogger(__name__)
 def flujo_dar_alta_cliente(banco: Banco) -> None:
 
     """
-    
-    Flujo donde se ejecuta la accion de dar el alta a un cliente:
-    
+        Gestiona el flujo interactivo por consola para dar de alta a un nuevo cliente en el banco.
+
+        Solicita al usuario el nombre y el DNI, procesa el registro a través de la instancia
+        del banco y captura posibles errores de validación o duplicidad de DNI.
+
+        Args:
+            banco (Banco): Instancia del objeto Banco donde se registrará el cliente.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError: Capturado internamente si el DNI ya está registrado o los datos son inválidos.
+
+        Examples:
+            >>> # flujo_dar_alta_cliente(banco_instancia)
     """
 
     limpiar_pantalla()
@@ -69,9 +82,19 @@ def flujo_dar_alta_cliente(banco: Banco) -> None:
 def flujo_resumen_de_banco(banco: Banco) -> None:
 
     """
-    
-    Modulo encargado de ejecutar el flujo de la accion "resumen de banco...
-    
+        Ejecuta el flujo para mostrar un resumen general del estado del banco.
+
+        Limpia la pantalla e invoca el método de resumen institucional de la clase Banco,
+        registrando la acción en el sistema de logs.
+
+        Args:
+            banco (Banco): Instancia del banco del cual se generará el resumen.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_resumen_de_banco(banco_instancia)
     """
 
     limpiar_pantalla()
@@ -87,9 +110,19 @@ def flujo_resumen_de_banco(banco: Banco) -> None:
 def flujo_salida_guardado_programa(banco) -> None:
 
     """
-    
-    Modulo encargado de la ejecucion del flujo de la accion "Salida y guardado del prograa"
-    
+        Gestiona el cierre seguro de la aplicación mediante la persistencia de los datos.
+
+        Limpia la pantalla, invoca la función de guardado en archivo JSON y realiza
+        una pausa antes de finalizar la ejecución del CLI.
+
+        Args:
+            banco (Banco): Instancia del banco cuyos datos serán persistidos.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_salida_guardado_programa(banco_instancia)
     """
 
     limpiar_pantalla()
@@ -98,13 +131,23 @@ def flujo_salida_guardado_programa(banco) -> None:
     guardar_datos(banco)
     time.sleep(1.5)
 
-
 def flujo_crear_cuenta_ahorro_cli(banco: Banco, cliente: Cliente) -> None:
 
     """
-    
-    Modulo encargado de la ejecucion de la accion de "Crear una cuenta de ahorro a un Cliente"...
-    
+        Ejecuta el flujo interactivo para crear y asociar una cuenta de ahorro a un cliente.
+
+        Genera de forma aleatoria un número de cuenta válido de 22 dígitos, instancia
+        una CuentaAhorro y la añade a la cartera del cliente seleccionado.
+
+        Args:
+            banco (Banco): Instancia del banco al que pertenece el cliente.
+            cliente (Cliente): Instancia del cliente titular de la nueva cuenta.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_crear_cuenta_ahorro_cli(banco_instancia, cliente_instancia)
     """
 
     limpiar_pantalla()
@@ -138,9 +181,20 @@ def flujo_crear_cuenta_ahorro_cli(banco: Banco, cliente: Cliente) -> None:
 def flujo_crear_cuenta_corriente_cli(banco: Banco, cliente: Cliente) -> None:
 
     """
-    
-    Modulo encargado de ejecutar el flujo de la accion "Crear una cuenta corriente para un Cliente"...
-    
+        Ejecuta el flujo interactivo para crear y asociar una cuenta corriente a un cliente.
+
+        Genera un número de cuenta aleatorio de 22 dígitos, solicita opcionalmente el límite
+        de descubierto (utilizando uno por defecto si no se ingresa valor) y añade la cuenta al cliente.
+
+        Args:
+            banco (Banco): Instancia del banco al que pertenece el cliente.
+            cliente (Cliente): Instancia del cliente titular de la cuenta corriente.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_crear_cuenta_corriente_cli(banco_instancia, cliente_instancia)
     """
 
     limpiar_pantalla()
@@ -175,9 +229,22 @@ def flujo_crear_cuenta_corriente_cli(banco: Banco, cliente: Cliente) -> None:
 def flujo_depositar_cli(banco: Banco, cliente: Cliente) -> None:
 
     """
+        Gestiona el flujo interactivo por consola para realizar un depósito de dinero
+        en una cuenta específica asociada al cliente.
 
-    Modulo encargado de la ejecucion de la accion de "Depositar en cuenta"...
-    
+        Verifica si el cliente posee cuentas; de ser así, lista las opciones disponibles,
+        solicita el número de cuenta y el monto a depositar, procesando la operación y
+        registrando tanto el éxito como los posibles errores en los logs.
+
+        Args:
+            banco (Banco): Instancia del banco actual.
+            cliente (Cliente): Instancia del cliente titular de las cuentas.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_depositar_cli(banco, cliente)
     """
 
     limpiar_pantalla()
@@ -216,9 +283,22 @@ def flujo_depositar_cli(banco: Banco, cliente: Cliente) -> None:
 def flujo_extraer_cli(banco: Banco, cliente: Cliente) -> None:
 
     """
+        Gestiona el flujo interactivo por consola para realizar una extracción de fondos
+        de una cuenta específica del cliente.
 
-    Modulo encargado de la ejecucion de la accion de "Extraer de alguna cuenta"...
-    
+        Comprueba la existencia de cuentas, muestra el listado al usuario, captura
+        el número de cuenta y el monto a retirar, aplicando las reglas de validación
+        de saldo o descubierto según corresponda.
+
+        Args:
+            banco (Banco): Instancia del banco actual.
+            cliente (Cliente): Instancia del cliente titular de la cuenta.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_extraer_cli(banco, cliente)
     """
 
     limpiar_pantalla()
@@ -257,9 +337,20 @@ def flujo_extraer_cli(banco: Banco, cliente: Cliente) -> None:
 def flujo_crear_cuenta_cli(banco: Banco, cliente: Cliente) -> None: #pragma: no cover
 
     """
-    
-    Modulo encargado de ejecutar la accion de "Crear un tipo de cuenta"...
-    
+        Controla el submenú interactivo para la creación de cuentas asociadas a un cliente.
+
+        Mantiene un bucle que permite elegir entre crear una cuenta de ahorro,
+        una cuenta corriente o regresar al menú anterior.
+
+        Args:
+            banco (Banco): Instancia del banco.
+            cliente (Cliente): Instancia del cliente al que se le creará la cuenta.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_crear_cuenta_cli(banco, cliente)
     """
 
     flag_crear_cuenta = True
@@ -286,9 +377,19 @@ def flujo_crear_cuenta_cli(banco: Banco, cliente: Cliente) -> None: #pragma: no 
 def flujo_mostrar_clientes_en_gestion(banco: Banco) -> None:
 
     """
-    
-    Modulo encargado de ejecutar la accion de mostrar clientes...
-    
+        Muestra en pantalla el listado completo de todos los clientes registrados en el banco.
+
+        Recorre la cartera de clientes de la entidad e imprime su representación en texto
+        o un mensaje indicando que no existen registros previos.
+
+        Args:
+            banco (Banco): Instancia del banco que contiene la lista de clientes.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_mostrar_clientes_en_gestion(banco)
     """
 
     limpiar_pantalla()
@@ -320,9 +421,19 @@ def flujo_mostrar_clientes_en_gestion(banco: Banco) -> None:
 def flujo_seleccionar_clientes_en_gestion_cli(banco: Banco) -> None: # pragma: no cover
 
     """
-    
-    Modulo encargado de ejecutar la accion de "El flujo de seleccionar un cliente y todo lo que implica"...
-    
+        Gestiona el flujo de búsqueda y selección de un cliente específico por su DNI.
+
+        Si el cliente es hallado en el sistema, abre un submenú interactivo de operaciones
+        (crear cuentas, depositar, extraer) específico para dicho usuario.
+
+        Args:
+            banco (Banco): Instancia del banco donde se realizará la búsqueda.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_seleccionar_clientes_en_gestion_cli(banco)
     """
 
     limpiar_pantalla()
@@ -368,9 +479,19 @@ def flujo_seleccionar_clientes_en_gestion_cli(banco: Banco) -> None: # pragma: n
 def flujo_gestion_clientes_cli(banco: Banco) -> None: # pragma: no cover
 
     """
-    
-    Modulo encargado de ejecutar la accion de "Gestionar Clientes y todo lo que implica"...
-    
+        Controla el menú principal de gestión de clientes dentro del CLI.
+
+        Mantiene un bucle interactivo que permite listar todos los clientes registrados
+        o seleccionar uno en particular para operar sobre sus cuentas.
+
+        Args:
+            banco (Banco): Instancia del banco en gestión.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_gestion_clientes_cli(banco)
     """
 
     flag_cliente_option = True

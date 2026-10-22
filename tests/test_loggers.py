@@ -5,6 +5,23 @@ import pytest
 from logs.loggers import configurar_logging
 
 def test_configurar_logging(tmp_path, monkeypatch) -> None:
+
+    """
+        Prueba que la función `configurar_logging` configure correctamente los manejadores
+        de archivos (`FileHandler`), creando el archivo de registro en disco y escribiendo
+        exitosamente los mensajes de log con su respectivo nivel de severidad.
+
+        Args:
+            tmp_path: Fixture de pytest que provee un directorio temporal aislado.
+            monkeypatch: Fixture de pytest para modificar temporalmente el directorio de trabajo.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # test_configurar_logging(tmp_path, monkeypatch)
+    """
+    
     # 1. Cambiamos temporalmente el directorio de trabajo a una carpeta temporal 
     # para que "app.log" se cree ahí y no ensucie el proyecto.
     monkeypatch.chdir(tmp_path)

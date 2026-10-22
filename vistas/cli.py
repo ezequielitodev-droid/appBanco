@@ -30,6 +30,28 @@ logger = logging.getLogger(__name__)
 
 def flujo_cli_app() -> None: # pragma: no cover
 
+    """
+        Ejecuta el flujo principal de la interfaz de línea de comandos (CLI) del sistema bancario.
+
+        Se encarga de inicializar la aplicación cargando los datos persistidos en disco
+        (o creando un banco nuevo si no existen), muestra la bienvenida institucional
+        y mantiene un bucle interactivo (`while`) que gestiona el menú principal,
+        redirigiendo al usuario hacia los distintos subflujos de operaciones (alta de clientes,
+        gestión, resúmenes y salida segura del sistema).
+
+        Returns:
+            None
+
+        Raises:
+            Exception: Si ocurre un error crítico no controlado durante la ejecución del bucle CLI.
+
+        Examples:
+            >>> # Esta función es el punto de entrada ejecutable de la aplicación:
+            >>> if __name__ == "__main__":
+            ...     # flujo_cli_app()
+            ...     pass
+    """
+
     #Creacion o carga del banco...
     banco = cargar_datos()
     logger.info(f"Sistema CLI iniciado correctamente. Banco cargado: {banco.get_nombre()}")

@@ -11,7 +11,6 @@ import logging
 from PySide6.QtWidgets import (
     QMessageBox, 
     QWidget, 
-    QInputDialog, 
     QComboBox, 
     QDialog, 
     QVBoxLayout, 
@@ -50,9 +49,22 @@ def flujo_crear_cuenta_ahorro_gui(
     ) -> None: #pragma: no cover
 
     """
-    
-    Modulo encargado de ejecutar la accion de "crear una cuenta de ahorro en la GUI"...
-    
+        Ejecuta el flujo visual mediante la GUI para crear y asociar una cuenta de ahorro a un cliente.
+
+        Genera un número de cuenta aleatorio de 22 dígitos, instancia una cuenta de ahorro,
+        la asocia al cliente, persiste los cambios en el disco y muestra una ventana emergente
+        con el resultado de la operación.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco actual para guardar datos.
+            cliente (Cliente | None, optional): Instancia del cliente titular de la cuenta.
+            v_padre (QWidget | None, optional): Ventana padre para posicionar los mensajes emergentes.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_crear_cuenta_ahorro_gui(banco, cliente, ventana_principal)
     """
 
     #Creamos un numero rando para asignarle a la cuenta:
@@ -96,7 +108,22 @@ def flujo_crear_cuenta_corriente_gui(
 ) -> None: #pragma: no cover
 
     """
-    Modulo encargado de ejecutar la accion "Crear una Cuenta Corriente en un Cliente con la GUI"...
+        Ejecuta el flujo visual mediante una ventana de diálogo (QDialog) en la GUI
+        para crear y asociar una cuenta corriente a un cliente, configurando su límite de descubierto.
+
+        Solicita al usuario el monto máximo de descubierto, valida su formato, instancia
+        la cuenta corriente, la asocia al cliente y persiste los datos actualizados.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco actual.
+            cliente (Cliente | None, optional): Instancia del cliente titular.
+            v_padre (QWidget | None, optional): Ventana padre de referencia para el diálogo.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_crear_cuenta_corriente_gui(banco, cliente, ventana_principal)
     """
 
     if not banco or not cliente: 
@@ -233,7 +260,23 @@ def flujo_depositar_gui(
 ) -> None: #pragma: no cover
 
     """
-    Modulo encargado de ejecutar la accion de "Depositar en una cuenta, sea Corriente o de Ahorro, en la GUI"...
+        Ejecuta el flujo visual mediante un cuadro de diálogo en la GUI
+        para seleccionar una cuenta del cliente y realizar un depósito de dinero.
+
+        Muestra un selector desplegable (`QComboBox`) con las cuentas disponibles del cliente,
+        captura el monto a depositar, procesa la transacción, guarda los cambios y emite
+        alertas visuales de éxito o error.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco actual.
+            cliente (Cliente | None, optional): Instancia del cliente titular.
+            v_padre (QWidget | None, optional): Ventana padre de referencia.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_depositar_gui(banco, cliente, ventana_principal)
     """
 
     if not cliente or not banco: 
@@ -410,7 +453,23 @@ def flujo_extraer_gui(
 ) -> None: #pragma: no cover
 
     """
-    Modulo encargado de ejecutar la accion de "Extraer un monto de alguna cuenta de algun Cliente, sea de Ahorro o Corriente, en la GUI"...
+        Ejecuta el flujo visual mediante un cuadro de diálogo en la GUI para seleccionar
+        una cuenta de un cliente y realizar una extracción de fondos.
+
+        Muestra un selector desplegable (`QComboBox`) con las cuentas asociadas del cliente,
+        captura el monto a extraer, procesa la transacción validando saldos y límites de descubierto,
+        persiste los cambios en disco y emite alertas visuales del resultado.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco actual para la persistencia.
+            cliente (Cliente | None, optional): Instancia del cliente titular de las cuentas.
+            v_padre (QWidget | None, optional): Ventana padre de referencia para los diálogos.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_extraer_gui(banco, cliente, ventana_principal)
     """
 
     if not banco or not cliente: 
@@ -584,7 +643,21 @@ def flujo_seleccionar_cliente_gui(
 ) -> Cliente | None: #pragma: no cover
 
     """
-    Modulo encargado de ejecutar la accion de "Seleccionar un cliente para pasar a la vista de Gestion de Cliente, en la GUI"...
+        Ejecuta el flujo visual mediante una ventana de diálogo en la GUI para buscar
+        y seleccionar un cliente registrado, permitiendo acceder a su vista de gestión.
+
+        Muestra un menú desplegable con la lista de clientes del banco, captura la selección
+        del usuario y retorna la instancia del objeto Cliente elegido.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco que contiene los clientes.
+            v_padre (QWidget | None, optional): Ventana padre de referencia.
+
+        Returns:
+            Cliente | None: La instancia del cliente seleccionado, o None si no se seleccionó ninguno.
+
+        Examples:
+            >>> # cliente_activo = flujo_seleccionar_cliente_gui(banco, ventana_principal)
     """
 
     if not banco: return
@@ -691,6 +764,25 @@ def flujo_mostrar_clientes_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
 ) -> None: #pragma: no cover
+
+    """
+        Ejecuta el flujo visual mediante una ventana de diálogo avanzada en la GUI
+        para listar a todos los clientes del banco y consultar interactivamente sus cuentas asociadas.
+
+        Muestra una tabla de clientes (`QTableWidget`) con nombres y DNIs. Al seleccionar un cliente,
+        actualiza dinámicamente una segunda tabla con el detalle completo de sus cuentas bancarias
+        (tipos, números, saldos y descubiertos).
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco con la información a mostrar.
+            v_padre (QWidget | None, optional): Ventana padre de referencia para el diálogo.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_mostrar_clientes_gui(banco, ventana_principal)
+    """
 
     if not banco: 
         return
@@ -852,6 +944,25 @@ def flujo_dar_alta_cliente_gui(
         v_padre: QWidget | None = None
 ) -> None: #pragma: no cover
 
+    """
+        Ejecuta el flujo visual mediante un formulario emergente en la GUI para dar de alta
+        a un nuevo cliente en el banco.
+
+        Solicita nombre y DNI mediante campos de texto, valida que no estén vacíos,
+        registra al cliente en la instancia del banco, persiste los cambios en el disco
+        y emite notificaciones visuales de éxito o error.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco actual.
+            v_padre (QWidget | None, optional): Ventana padre de referencia.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_dar_alta_cliente_gui(banco, ventana_principal)
+    """
+
     if not banco: return
 
     dialog = QDialog(v_padre)
@@ -970,6 +1081,25 @@ def flujo_resumen_banco_gui(
         banco: Banco | None = None, 
         v_padre: QWidget | None = None
 ) -> None: #pragma: no cover
+
+    """
+        Ejecuta el flujo visual mediante una ventana de diálogo estadística en la GUI
+        para presentar un panel resumido con las métricas globales de la entidad bancaria.
+
+        Calcula y muestra indicadores clave del banco, tales como el total de clientes registrados,
+        el total de cuentas activas desglosadas por tipo (ahorro y corriente) y el capital
+        monetario total acumulado en depósitos, aplicando un diseño corporativo oscuro.
+
+        Args:
+            banco (Banco | None, optional): Instancia del banco del cual se calcularán las métricas.
+            v_padre (QWidget | None, optional): Ventana padre de referencia para el diálogo.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # flujo_resumen_banco_gui(banco, ventana_principal)
+    """
 
     if not banco: 
         return

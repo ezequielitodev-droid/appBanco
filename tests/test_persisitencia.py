@@ -12,17 +12,53 @@ NUMERO_PRUEBA = "1" * 22
 NUMERO_CORRIENTE = "2" * 22
 
 def test_cargar_datos_si_no_existe_archivo(tmp_path, monkeypatch) -> None:
-    # Simulamos que el archivo de datos apunta a una ruta temporal que no existe
+
+    """
+        Prueba que la función `cargar_datos` retorne una instancia válida de `Banco`
+        con valores por defecto (nombre "Mi Banco" y lista de clientes vacía) cuando
+        el archivo de persistencia especificado no existe en el disco.
+
+        Args:
+            tmp_path: Fixture de pytest que provee un directorio temporal aislado.
+            monkeypatch: Fixture de pytest para modificar temporalmente atributos o rutas.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # test_cargar_datos_si_no_existe_archivo(tmp_path, monkeypatch)
+    """
+
+    # 1. Simulamos que el archivo de datos apunta a una ruta temporal que no existe
     archivo_falso = tmp_path / "banco_inexistente.json"
     monkeypatch.setattr(persistencia_mod, "ARCHIVO_DATOS", archivo_falso)
     
+    # 2. Ejecutamos la función de carga
     banco = cargar_datos()
     
+    # 3. Verificamos que se cree un banco por defecto correctamente
     assert isinstance(banco, Banco)
     assert banco.get_nombre() == "Mi Banco"
     assert banco.clientes == []
 
 def test_guardar_y_cargar_datos_banco_completo(tmp_path, monkeypatch) -> None:
+
+    """
+        Prueba el ciclo completo de serialización y deserialización de datos del banco,
+        asegurando que los clientes, cuentas (ahorro y corriente), saldos, historiales
+        de transacciones y atributos específicos se guarden y recuperen fielmente desde JSON.
+
+        Args:
+            tmp_path: Fixture de pytest que provee un directorio temporal aislado.
+            monkeypatch: Fixture de pytest para modificar temporalmente la ruta del archivo de datos.
+
+        Returns:
+            None
+
+        Examples:
+            >>> # test_guardar_y_cargar_datos_banco_completo(tmp_path, monkeypatch)
+    """
+    
     # Apuntamos la persistencia a un archivo temporal
     archivo_temp = tmp_path / "banco_datos.json"
     monkeypatch.setattr(persistencia_mod, "ARCHIVO_DATOS", archivo_temp)
